@@ -29,6 +29,112 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>9.1.3.v20140225</version>
 			</plugin>
+			<plugin>
+				<groupId>com.github.klieber</groupId>
+				<artifactId>phantomjs-maven-plugin</artifactId>
+				<version>0.2.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>install</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<version>1.9.2</version>
+					<baseUrl>http://phantomjs.googlecode.com/files/</baseUrl>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.searls</groupId>
+				<artifactId>jasmine-maven-plugin</artifactId>
+				<version>1.3.1.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<jsSrcDir>${basedir}/src/main/webapp/js</jsSrcDir>
+					<sourceIncludes>
+						<!-- dependencies -->
+						<include>**/lib/jquery*.js</include>
+						<include>**/lib/angular/angular.min.js</include>
+						<include>**/lib/angular/angular-*.js</include>
+						<!-- js -->
+						<include>**/*.js</include>
+					</sourceIncludes>
+					<jsTestSrcDir>${basedir}/src/test/js</jsTestSrcDir>
+					<specIncludes>
+						<!-- test dependencies -->
+						<include>**/lib/angular/angular-*.js</include>
+						<!-- tests -->
+						<include>**/specs/*.js</include>
+					</specIncludes>
+					<keepServerAlive>true</keepServerAlive>
+					<webDriverClassName>org.openqa.selenium.phantomjs.PhantomJSDriver</webDriverClassName>
+					<webDriverCapabilities>
+						<phantomjs.binary.path>${phantomjs.binary}</phantomjs.binary.path>
+					</webDriverCapabilities>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.timurstrekalov</groupId>
+				<artifactId>saga-maven-plugin</artifactId>
+				<version>1.5.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>coverage</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<baseDir>http://localhost:${jasmine.serverPort}</baseDir>
+					<outputDir>${project.build.directory}/coverage</outputDir>
+					<noInstrumentPatterns>
+						<pattern>.*/specs/.*</pattern>
+						<pattern>.*/lib/.*</pattern>
+					</noInstrumentPatterns>
+				</configuration>
+			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.github.klieber
+										</groupId>
+										<artifactId>
+											phantomjs-maven-plugin
+										</artifactId>
+										<versionRange>
+											[0.2.1,)
+										</versionRange>
+										<goals>
+											<goal>install</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>
