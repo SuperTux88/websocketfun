@@ -1,7 +1,11 @@
 <html>
 	<head>
 		<script>
-			var connection = new WebSocket('ws://remote.coding4coffee.org:8080/foo');
+			function websocketUrl(s) {
+			    var l = window.location;
+			    return ((l.protocol === "https:") ? "wss://" : "ws://") + l.hostname + (((l.port != 80) && (l.port != 443)) ? ":" + l.port : "") + (s.indexOf('/') < 0 ? l.pathname : '') + s;
+			}
+			var connection = new WebSocket(websocketUrl('foo'));
 			connection.onopen = function() {
 				connection.send("ping");
 			};
